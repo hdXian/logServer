@@ -36,36 +36,44 @@ public class LogDbJPARepository implements LogRepository {
 
     @Override
     public List<Log> findByHostAsc(String host) {
-        return null;
+        return em.createQuery("select se from SystemEvents se order by FromHost", Log.class)
+                .getResultList();
     }
 
     @Override
     public List<Log> findByHostDesc(String host) {
-        return null;
+        return em.createQuery("select se from SystemEvents se order by FromHost desc", Log.class)
+                .getResultList();
     }
 
     @Override
     public List<Log> findByMsgAsc(String msg) {
-        return null;
+        return em.createQuery("select se from SystemEvents se order by Message", Log.class)
+                .getResultList();
     }
 
     @Override
     public List<Log> findByMsgDesc(String msg) {
-        return null;
+        return em.createQuery("select se from SystemEvents se order by Message desc", Log.class)
+                .getResultList();
     }
 
     @Override
     public List<Log> findByDateAsc(String date) {
-        return null;
+        return em.createQuery("select se from SystemEvents se order DeviceReportedTime", Log.class)
+                .getResultList();
     }
 
     @Override
     public List<Log> findByDateDesc(String date) {
-        return null;
+        return em.createQuery("select se from SystemEvents se order DeviceReportedTime desc", Log.class)
+                .getResultList();
     }
 
     @Override
     public List<Log> getAllLogs() {
-        return null;
+        return em.createQuery("select se from SystemEvents se", Log.class)
+                .getResultList();
     }
+
 }

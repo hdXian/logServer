@@ -1,9 +1,19 @@
 package hdxian.loggerProg.domain;
 
 public class Log {
+
+    private long Id;
     private String LogDate;
     private String Level;
     private String Message;
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
+    }
 
     public String getLogDate() {
         return LogDate;
