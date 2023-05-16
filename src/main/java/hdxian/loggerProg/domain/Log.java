@@ -1,34 +1,67 @@
 package hdxian.loggerProg.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Log {
 
-    private long Id;
-    private String LogDate;
-    private String Level;
+    @Id
+    private int id;
+    private String ReceivedAt;
+    private String DeviceReportedTime;
+    private int Facility;
+    private int Priority;
+    private String FromHost;
     private String Message;
+    private String SysLogTag;
 
-    public long getId() {
-        return Id;
+    public int getId() {
+        return id;
     }
 
-    public void setId(long id) {
-        Id = id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getLogDate() {
-        return LogDate;
+    public String getReceivedAt() {
+        return ReceivedAt;
     }
 
-    public void setLogDate(String logDate) {
-        LogDate = logDate;
+    public void setReceivedAt(String receivedAt) {
+        ReceivedAt = receivedAt;
     }
 
-    public String getLevel() {
-        return Level;
+    public String getDeviceReportedTime() {
+        return DeviceReportedTime;
     }
 
-    public void setLevel(String level) {
-        Level = level;
+    public void setDeviceReportedTime(String deviceReportedTime) {
+        DeviceReportedTime = deviceReportedTime;
+    }
+
+    public int getFacility() {
+        return Facility;
+    }
+
+    public void setFacility(int facility) {
+        Facility = facility;
+    }
+
+    public int getPriority() {
+        return Priority;
+    }
+
+    public void setPriority(int priority) {
+        Priority = priority;
+    }
+
+    public String getFromHost() {
+        return FromHost;
+    }
+
+    public void setFromHost(String fromHost) {
+        FromHost = fromHost;
     }
 
     public String getMessage() {
@@ -38,4 +71,13 @@ public class Log {
     public void setMessage(String message) {
         Message = message;
     }
+
+    public String getSysLogTag() {
+        return SysLogTag;
+    }
+
+    public void setSysLogTag(String sysLogTag) {
+        SysLogTag = sysLogTag;
+    }
+
 }
