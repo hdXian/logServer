@@ -23,28 +23,32 @@ public class LogJPARepository implements LogRepository {
     }
 
     @Override
-    public List<Log> findByPriority(int order) {
+    public List<Log> findByPriority(String msg, int order) {
 
         if(order == 1) { // 오름차순
-            return em.createQuery("select se from SystemEvents se order by Priority asc", Log.class)
+            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority asc", Log.class)
+                    .setParameter("msg", msg)
                     .getResultList();
         }
         else { // 내림차순
-            return em.createQuery("select se from SystemEvents se order by Priority desc", Log.class)
+            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority desc", Log.class)
+                    .setParameter("msg", msg)
                     .getResultList();
         }
 
     }
 
     @Override
-    public List<Log> findByHost(int order) {
+    public List<Log> findByHost(String msg, int order) {
 
         if(order == 1) { // 오름차순
-            return em.createQuery("select se from SystemEvents se order by FromHost asc", Log.class)
+            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost asc", Log.class)
+                    .setParameter("msg", msg)
                     .getResultList();
         }
         else { // 내림차순
-            return em.createQuery("select se from SystemEvents se order by FromHost desc", Log.class)
+            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost desc", Log.class)
+                    .setParameter("msg", msg)
                     .getResultList();
         }
 
@@ -52,27 +56,29 @@ public class LogJPARepository implements LogRepository {
 
     @Override
     public List<Log> findByMsg(String msg) {
-        return em.createQuery("select se from SystemEvents se where Message like %:msg%", Log.class)
+        return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%')", Log.class)
                 .setParameter("msg", msg)
                 .getResultList();
     }
 
 
     @Override
-    public List<Log> findByDate(int order) {
+    public List<Log> findByDate(String msg, int order) {
         if(order == 1) { // 오름차순
-            return em.createQuery("select se from SystemEvents se order by FromHost asc", Log.class)
+            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime asc", Log.class)
+                    .setParameter("msg", msg)
                     .getResultList();
         }
         else { // 내림차순
-            return em.createQuery("select se from SystemEvents se order by FromHost desc", Log.class)
+            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime desc", Log.class)
+                    .setParameter("msg", msg)
                     .getResultList();
         }
     }
 
     @Override
-    public List<Log> getAllLogs() {
-        return em.createQuery("select se from SystemEvents se", Log.class)
+    public List<Log> getAll() {
+        return em.createQuery("select l from Log l", Log.class)
                 .getResultList();
     }
 

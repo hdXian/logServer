@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+   <title>로그 분석 UI</title>
+   <style>
+      table {
+         border-collapse: collapse;
+         width: 100%;
+      }
+      th, td {
+         padding: 8px;
+         text-align: left;
+         border-bottom: 1px solid #ddd;
+      }
+      tr:hover {
+         background-color: #f5f5f5;
+      }
+      input[type=text], select {
+         width: 100%;
+         padding: 12px 20px;
+         margin: 8px 0;
+         display: inline-block;
+         border: 1px solid #ccc;
+         border-radius: 4px;
+         box-sizing: border-box;
+      }
+      input[type=submit] {
+         background-color: #4CAF50;
+         color: white;
+         padding: 14px 20px;
+         margin: 8px 0;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+      }
+      input[type=submit]:hover {
+         background-color: #45a049;
+      }
+   </style>
+</head>
+<body>
+   <h1>로그 분석 UI</h1>
+   <form action="/log/logList" method="get">
+      <label for="search">검색:</label>
+      <input type="text" id="search" name="search">
+      <select id="sort" name="sort">
+         <option value="ta">시간 (최신순)</option> <!-- time asc -->
+         <option value="td">시간 (오래된 순)</option> <!-- time desc -->
+         <option value="pd">레벨 (높은 순)</option> <!-- priority desc -->
+         <option value="pa">레벨 (낮은 순)</option> <!-- priority asc -->
+      </select>
+      <input type="submit" value="검색">
+   </form>
+   <table>
+      <thead>
+        <tr>
+            <th>시간</th>
+            <th>레벨</th>
+            <th>메시지</th>
+            <th>호스트</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr th:each="log : ${logs}">
+          <td th:text="${log.ReceivedAt}"></td>
+          <td th:text="${log.Priority}"></td>
+          <td th:text="${log.Message}"></td>
+          <td th:text="${log.FromHost}"></td>
+        </tr>
+      </tbody>
+   </table>
+</body>
+</html>

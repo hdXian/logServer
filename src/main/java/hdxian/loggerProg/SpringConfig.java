@@ -1,6 +1,7 @@
 package hdxian.loggerProg;
 
 import hdxian.loggerProg.Service.LogAdminService;
+import hdxian.loggerProg.Service.LogService;
 import hdxian.loggerProg.repo.LogAdminRepository;
 import hdxian.loggerProg.repo.LogAdminJPARepository;
 import hdxian.loggerProg.repo.LogJPARepository;
@@ -20,11 +21,6 @@ public class SpringConfig {
     }
 
     @Bean
-    public LogRepository logRepository() {
-        return new LogJPARepository(em);
-    }
-
-    @Bean
     public LogAdminRepository adminRepository() {
         return new LogAdminJPARepository(em);
     }
@@ -32,6 +28,16 @@ public class SpringConfig {
     @Bean
     public LogAdminService adminService() {
         return new LogAdminService(adminRepository());
+    }
+
+    @Bean
+    public LogRepository logRepository() {
+        return new LogJPARepository(em);
+    }
+
+    @Bean
+    public LogService logService() {
+        return new LogService(logRepository());
     }
 
 

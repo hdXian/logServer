@@ -30,10 +30,10 @@ public class loginController {
 
     @PostMapping("/login")
     public String login(LogAdminForm form) {
-        System.out.println(form.getId());
+        // System.out.println(form.getId());
         Optional<log_admin> res = service.findAdmin(form.getId());
 
-        if(res.isEmpty()) {
+        if(res.isEmpty()) { // 로그인 실패 시
             return "redirect:/";
         }
         else {
@@ -41,7 +41,7 @@ public class loginController {
                 log_admin admin = res.get();
                 String pw = tomd5(form.getPassword());
                 if (admin.getPassword().equals(pw))
-                    return "logList";
+                    return "redirect:/log/logMonitor";
                 else
                     return "redirect:/";
             } catch (Exception e) {
