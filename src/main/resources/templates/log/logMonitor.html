@@ -40,7 +40,7 @@
 </head>
 <body>
    <h1>로그 분석 UI</h1>
-   <form action="/log/logList" method="get">
+   <form method="get" name="form">
       <label for="search">검색:</label>
       <input type="text" id="search" name="search">
       <select id="sort" name="sort">
@@ -49,8 +49,11 @@
          <option value="pd">레벨 (높은 순)</option> <!-- priority desc -->
          <option value="pa">레벨 (낮은 순)</option> <!-- priority asc -->
       </select>
-      <input type="submit" value="검색">
+      <!--input type="submit" value="검색"-->
+       <input type="submit" value="검색" onclick="javascript: form.action='/log/logList';"/>
+       <input type="submit" value="Excel로 다운로드" onclick="javascript: form.action='/log/getXlsx';"/>
    </form>
+
    <table>
       <thead>
         <tr>

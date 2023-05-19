@@ -1,5 +1,6 @@
 package hdxian.loggerProg;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hdxian.loggerProg.Service.LogAdminService;
 import hdxian.loggerProg.Service.LogService;
 import hdxian.loggerProg.repo.LogAdminRepository;
@@ -16,8 +17,12 @@ public class SpringConfig {
 
     private final EntityManager em;
 
-    public SpringConfig(EntityManager em) {
+    // 엑셀 파일 다운로드 기능 추가
+    private final ObjectMapper objectMapper;
+
+    public SpringConfig(EntityManager em, ObjectMapper objectMapper) {
         this.em = em;
+        this.objectMapper = objectMapper;
     }
 
     @Bean
@@ -37,7 +42,7 @@ public class SpringConfig {
 
     @Bean
     public LogService logService() {
-        return new LogService(logRepository());
+        return new LogService(logRepository(), objectMapper);
     }
 
 
