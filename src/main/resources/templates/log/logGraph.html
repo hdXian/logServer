@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Graph Page</title>
+    <script src="/webjars/chartjs/2.9.3/Chart.min.js"></script>
+</head>
+<body>
+<canvas id="myChart" width="400" height="400"></canvas>
+
+<script th:inline="javascript">
+        var data = [[${logList}]];
+<!--        console.log(data);-->
+
+<!--        console.log(data[0]);-->
+<!--        console.log(typeof(data));-->
+<!--        console.log(data[0]["fromHost"]);-->
+
+<!--        var da = {-->
+<!--                    label: 'Graph Data',-->
+<!--                    data: data,-->
+<!--                    backgroundColor: 'rgba(75, 192, 192, 0.2)',-->
+<!--                    borderColor: 'rgba(75, 192, 192, 1)',-->
+<!--                    borderWidth: 1-->
+<!--                };-->
+<!--        console.log(typeof(da));-->
+<!--        console.log(da["label"]);-->
+
+
+        var labels = [...new Set(data.map(row=>row.fromHost))];
+        console.log(labels);
+
+        var counts = [];
+        for(var i=0; i<labels.length; i++) {
+            var tmp = 0;
+            for(var j=0; j<data.length; j++) {
+                if (labels[i] == data[j]["fromHost"])
+                    tmp += 1;
+            }
+            counts.push(tmp);
+        }
+        console.log(counts);
+
+        var ds = [];
+        for(var i=0; i<labels.length; i++) {
+            ds.push( {
+                label: labels[i],
+                data: counts[i],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+                } );
+        }
+        console.log(ds);
+
+        // Chart.js를 사용하여 그래프 그리기
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'logs',
+                    data: counts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                            }
+                        }]
+                }
+            }
+        });
+    </script>
+</body>
+</html>

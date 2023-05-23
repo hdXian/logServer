@@ -36,8 +36,8 @@ public class LogService {
         return getLogs(search, sort);
     }
 
-    public Object getLogExcel(HttpServletResponse response, String sort, String search)  {
-        List<Log> logList = getLogs(sort, search);
+    public Object getLogExcel(HttpServletResponse response, String search, String sort)  {
+        List<Log> logList = getLogs(search, sort);
 
         createExcelDownloadResponse(response, logList);
 
@@ -49,20 +49,25 @@ public class LogService {
     }
 
 
-    private List<Log> getLogs(String sort, String search) throws NullPointerException {
+    private List<Log> getLogs(String search, String sort) throws NullPointerException {
         if(search == null || sort == null) {
             throw new NullPointerException("search or sort is null");
         }
         switch (sort) {
             case "ta":
+                // System.out.println("called ta");
                 return repository.findByDate(search, 1);
             case "td":
+                // System.out.println("called td");
                 return repository.findByDate(search, 0);
             case "pa":
+                // System.out.println("called pa");
                 return repository.findByPriority(search, 1);
             case "pd":
+                // System.out.println("called pd");
                 return repository.findByPriority(search, 0);
             default:
+                // System.out.println("called all");
                 return repository.getAll();
         }
     }
@@ -112,7 +117,7 @@ public class LogService {
 
             }
 
-            response.setContentType("application/vnd.ms-excel");
+            response.setContentType("ms-vnd/excel");
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
             //파일명은 URLEncoder로 감싸주는게 좋다!
 

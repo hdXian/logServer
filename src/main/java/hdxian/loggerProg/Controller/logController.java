@@ -3,12 +3,10 @@ package hdxian.loggerProg.Controller;
 import hdxian.loggerProg.Service.LogService;
 import hdxian.loggerProg.domain.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -27,6 +25,7 @@ public class logController {
     public String logList(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model) {
         List<Log> res = logService.getSortedLogs(search, sort);
         model.addAttribute("logs", res);
+
         return "log/logMonitor";
     }
 
@@ -39,8 +38,15 @@ public class logController {
 
 
     @GetMapping("log/getXlsx") // 엑셀 파일로 다운로드
-    public ResponseEntity getXlsx(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, HttpServletResponse response) {
-        return ResponseEntity.ok(logService.getLogExcel(response, sort, search));
+    public void getXlsx(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, HttpServletResponse response) {
+        logService.getLogExcel(response, search, sort);
+    }
+
+    @GetMapping("log/showInGraph")
+    public String showInGraph(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model) {
+        List<Log> res = logService.getSortedLogs(search, sort);
+        model.addAttribute("logList", res);
+        return "log/logGraph";
     }
 
 

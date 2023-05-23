@@ -20,9 +20,12 @@ dependencies {
 	//excel download : poi
 	implementation 'org.apache.poi:poi:5.2.2'                // .xls 확장자
 	implementation 'org.apache.poi:poi-ooxml:5.2.2'          // .xlsx 확장자
+	// 그래프 표현을 위한 의존성
+	implementation 'org.webjars:chartjs:2.9.3'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()

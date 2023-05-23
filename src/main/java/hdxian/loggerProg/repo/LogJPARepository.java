@@ -11,6 +11,7 @@ public class LogJPARepository implements LogRepository {
 
     private final EntityManager em;
 
+
     @Autowired
     public LogJPARepository(EntityManager em) {
         this.em = em;
