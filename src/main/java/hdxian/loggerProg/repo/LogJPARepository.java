@@ -1,5 +1,8 @@
 package hdxian.loggerProg.repo;
 
+import hdxian.loggerProg.custom.DateLogStat;
+import hdxian.loggerProg.custom.DayHostLogStat;
+import hdxian.loggerProg.custom.DayPriorityLogStat;
 import hdxian.loggerProg.domain.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -65,6 +68,7 @@ public class LogJPARepository implements LogRepository {
 
     @Override
     public List<Log> findByDate(String msg, int order) {
+
         if(order == 1) { // 오름차순
             return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime asc", Log.class)
                     .setParameter("msg", msg)
@@ -75,12 +79,48 @@ public class LogJPARepository implements LogRepository {
                     .setParameter("msg", msg)
                     .getResultList();
         }
+
     }
 
     @Override
     public List<Log> getAll() {
         return em.createQuery("select l from Log l", Log.class)
                 .getResultList();
+    }
+
+
+    @Override
+    public List<DateLogStat> getStatByDate() {
+        return em.createQuery("select new hdxian.loggerProg.custom.DateLogStat(" +
+                        "date(l.DeviceReportedTime), " +
+                        "count(*)) " +
+                        "from Log l " +
+                        "group by date(l.DeviceReportedTime) " +
+                        "order by date(l.DeviceReportedTime) desc ", DateLogStat.class)
+                .setMaxResults(5)
+                .getResultList();
+    }
+
+    @Override
+    public List<DayHostLogStat> getStatByDayHost() {
+        return em.createQuery("select new hdxian.loggerProg.custom.DayHostLogStat(" +
+                "l.FromHost, " +
+                "curdate(), " +
+                "count(*)) " +
+                "from Log l " +
+                "where date(l.DeviceReportedTime) = curdate() " +
+                "group by l.FromHost", DayHostLogStat.class).getResultList();
+    }
+
+    @Override
+    public List<DayPriorityLogStat> getStatByDayPriority() {
+        return em.createQuery("select new hdxian.loggerProg.custom.DayPriorityLogStat(" +
+                "l.Priority, " +
+                "curdate(), " +
+                "count(*)) " +
+                "from Log l " +
+                "where date(DeviceReportedTime) = curdate() " +
+                "group by l.Priority", DayPriorityLogStat.class).getResultList();
     }
 
 }

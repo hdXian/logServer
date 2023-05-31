@@ -3,10 +3,7 @@ package hdxian.loggerProg;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hdxian.loggerProg.Service.LogAdminService;
 import hdxian.loggerProg.Service.LogService;
-import hdxian.loggerProg.repo.LogAdminRepository;
-import hdxian.loggerProg.repo.LogAdminJPARepository;
-import hdxian.loggerProg.repo.LogJPARepository;
-import hdxian.loggerProg.repo.LogRepository;
+import hdxian.loggerProg.repo.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

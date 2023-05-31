@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>대시보드</title>
+  <style>
+    /* 그리드 컨테이너 스타일 */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+
+    /* 그래프 컨테이너 스타일 */
+    .chart-container {
+      background-color: #f5f5f5;
+      padding: 10px;
+      width: 500px;
+      height: 400px;
+    }
+
+    /* 목록 컨테이너 스타일 */
+    .list-container {
+      background-color: #f5f5f5;
+      padding: 10px;
+    }
+  </style>
+  <!-- Chart.js를 사용하기 위한 스크립트 링크 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="dashboard">
+  <!-- 그래프 컨테이너 -->
+  <div class="chart-container">
+    <canvas id="graph1"></canvas>
+  </div>
+  <div class="chart-container">
+    <canvas id="graph2"></canvas>
+  </div>
+  <div class="chart-container">
+    <canvas id="graph3"></canvas>
+  </div>
+
+  <!-- 목록 컨테이너 -->
+  <div class="list-container">
+    <h3>목록</h3>
+    <ul>
+      <li>항목 1</li>
+      <li>항목 2</li>
+      <li>항목 3</li>
+      <li>항목 4</li>
+      <li>항목 5</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+
+    var dateStat = [[${dateStat}]];
+    var dayHostStat = [[${dayHostStat}]];
+    var dayPriorityStat = [[${dayPriorityStat}]];
+
+    for(var stat:dateStat)
+      console.log(stat);
+
+    for(var stat:dayHostStat)
+      console.log(stat);
+
+    for(var stat:dayPriorityStat)
+      console.log(stat);
+
+
+    // 그래프 데이터
+    var data1 = {
+      labels: ["A", "B", "C", "D", "E"],
+      datasets: [{
+        label: "데이터셋 1",
+        data: [12, 19, 3, 5, 2],
+        backgroundColor: ["#F5F5DC", "#F4A460", "#FFCE56", "#FFFFF0", "#FFFDD0"],
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1
+      }]
+    };
+
+    var data2 = {
+      labels: ["F", "G", "H", "I", "J"],
+      datasets: [{
+        label: "데이터셋 2",
+        data: [5, 10, 15, 20, 25],
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1
+      }]
+    };
+
+    // 그래프 옵션
+    var options = {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+
+    // 그래프 생성
+    var ctx1 = document.getElementById('graph1').getContext('2d');
+    new Chart(ctx1, {
+      type: 'pie',
+      data: data1,
+      options: options
+    });
+
+    var ctx2 = document.getElementById('graph2').getContext('2d');
+    new Chart(ctx2, {
+      type: 'bar',
+      data: data2,
+      options: options
+    });
+
+    var ctx3 = document.getElementById('graph3').getContext('2d');
+    new Chart(ctx3, {
+      type: 'bar',
+      data: data2,
+      options: options
+    });
+
+
+  </script>
+</body>
+</html>

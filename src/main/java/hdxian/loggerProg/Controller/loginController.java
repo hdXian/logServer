@@ -41,7 +41,7 @@ public class loginController {
                 log_admin admin = res.get();
                 String pw = tomd5(form.getPassword());
                 if (admin.getPassword().equals(pw))
-                    return "redirect:/log/logMonitor";
+                    return "redirect:/home";
                 else
                     return "redirect:/";
             } catch (Exception e) {

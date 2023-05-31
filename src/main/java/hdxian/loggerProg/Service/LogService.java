@@ -1,6 +1,9 @@
 package hdxian.loggerProg.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hdxian.loggerProg.custom.DateLogStat;
+import hdxian.loggerProg.custom.DayHostLogStat;
+import hdxian.loggerProg.custom.DayPriorityLogStat;
 import hdxian.loggerProg.domain.Log;
 import hdxian.loggerProg.repo.LogRepository;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,7 +30,6 @@ public class LogService {
         this.repository = repository;
         this.objectMapper = objectMapper;
     }
-
 
     public List<Log> getAllLogs() {
         return repository.getAll();
@@ -46,6 +49,49 @@ public class LogService {
                 .collect(Collectors.toList());
 
         return logMap;
+    }
+
+//    public List<Map.Entry<Log, Long>> getDateLogStats() {
+//        List<Log> byDate = repository.findByDate("", 0);
+//
+//        HashMap<Log, Long> countMap = new HashMap<>();
+//        for(Log l:byDate) {
+//            countMap.put(l, countMap.getOrDefault(l, 0L) + 1);
+//        }
+//
+//        List<Map.Entry<Log, Long>> sortedEntries = countMap.entrySet().stream()
+//                .sorted(Map.Entry.<Log, Long>comparingByValue().reversed())
+//                .collect(Collectors.toList());
+//
+//        return sortedEntries;
+//    }
+//
+//    public List<Map.Entry<Log, Long>> getPriorityLogStats() {
+//        List<Log> byHost = repository.findByHost("", 0);
+//
+//        HashMap<Log, Long> countMap = new HashMap<>();
+//        for(Log l:byHost) {
+//            countMap.put(l, countMap.getOrDefault(l, 0L) + 1);
+//        }
+//
+//        List<Map.Entry<Log, Long>> sortedEntries = countMap.entrySet().stream()
+//                .sorted(Map.Entry.<Log, Long>comparingByValue().reversed())
+//                .collect(Collectors.toList());
+//
+//        return sortedEntries;
+//    }
+
+
+    public List<DateLogStat> getDateLogStat() {
+        return repository.getStatByDate();
+    }
+
+    public List<DayHostLogStat> getDayHostLogStat() {
+        return repository.getStatByDayHost();
+    }
+
+    public List<DayPriorityLogStat> getDayPriorityLogStat() {
+        return repository.getStatByDayPriority();
     }
 
 

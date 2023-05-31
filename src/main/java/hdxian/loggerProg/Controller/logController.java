@@ -1,6 +1,9 @@
 package hdxian.loggerProg.Controller;
 
 import hdxian.loggerProg.Service.LogService;
+import hdxian.loggerProg.custom.DateLogStat;
+import hdxian.loggerProg.custom.DayHostLogStat;
+import hdxian.loggerProg.custom.DayPriorityLogStat;
 import hdxian.loggerProg.domain.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class logController {
@@ -25,15 +29,48 @@ public class logController {
     public String logList(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model) {
         List<Log> res = logService.getSortedLogs(search, sort);
         model.addAttribute("logs", res);
-
+;
         return "log/logMonitor";
     }
 
-    @GetMapping("log/logMonitor") // 로그인 후 최초 접속
-    public String logMonitor(Model model) {
-        List<Log> res = logService.getAllLogs();
-        model.addAttribute("logs", res);
-        return "log/logMonitor";
+//    @GetMapping("log/logMonitor") // 로그인 후 최초 접속
+//    public String logMonitor(Model model) {
+//        List<Log> res = logService.getAllLogs();
+//        model.addAttribute("logs", res);
+//        return "log/logMonitor";
+//    }
+
+    @GetMapping("/home") // 로그인 후 최초 접속
+    public String logDashBoard(Model model) {
+
+        List<DateLogStat> dateStat = logService.getDateLogStat();
+        List<DayHostLogStat> dayHostStat = logService.getDayHostLogStat();
+        List<DayPriorityLogStat> dayPriorityStat = logService.getDayPriorityLogStat();
+
+        System.out.println("dateStat");
+        for(DateLogStat stat: dateStat) {
+            System.out.println(stat.getCount());
+            System.out.println(stat.getDate());
+        }
+
+        System.out.println("dayHostStat");
+        for(DayHostLogStat stat: dayHostStat) {
+            System.out.println(stat.getFromHost());
+            System.out.println(stat.getToday());
+            System.out.println(stat.getCount());
+        }
+
+        System.out.println("dayPriorityStat");
+        for(DayPriorityLogStat stat: dayPriorityStat) {
+            System.out.println(stat.getPriority());
+            System.out.println(stat.getCount());
+            System.out.println(stat.getToday());
+        }
+
+        model.addAttribute("dateStat", dateStat);
+        model.addAttribute("dayHostStat", dayHostStat);
+        model.addAttribute("dayPriorityStat", dayPriorityStat);
+        return "log/dashBoard";
     }
 
 
@@ -48,6 +85,9 @@ public class logController {
         model.addAttribute("logList", res);
         return "log/logGraph";
     }
+
+
+
 
 
 }
