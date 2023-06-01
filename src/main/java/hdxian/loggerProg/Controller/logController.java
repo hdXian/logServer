@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +49,10 @@ public class logController {
         List<DayHostLogStat> dayHostStat = logService.getDayHostLogStat();
         List<DayPriorityLogStat> dayPriorityStat = logService.getDayPriorityLogStat();
 
+        model.addAttribute("dateStat", dateStat);
+        model.addAttribute("dayHostStat", dayHostStat);
+        model.addAttribute("dayPriorityStat", dayPriorityStat);
+
         System.out.println("dateStat");
         for(DateLogStat stat: dateStat) {
             System.out.println(stat.getCount());
@@ -67,9 +73,31 @@ public class logController {
             System.out.println(stat.getToday());
         }
 
-        model.addAttribute("dateStat", dateStat);
-        model.addAttribute("dayHostStat", dayHostStat);
-        model.addAttribute("dayPriorityStat", dayPriorityStat);
+//        // 최근 5일간의 날짜와 로그 통계
+//        Date[] dateStatDays = dateStat.stream().map(DateLogStat::getDate).toArray(Date[]::new);
+//        long[] dateStatCounts = dateStat.stream().mapToLong(DateLogStat::getCount).toArray();
+//
+//        // 일간 호스트별 통계
+//        String[] dayHostFromHosts = dayHostStat.stream().map(DayHostLogStat::getFromHost).toArray(String[]::new);
+//        Date[] dayHostToday = dayHostStat.stream().map(DayHostLogStat::getToday).toArray(Date[]::new);
+//        long[] dayHostCounts = dayHostStat.stream().mapToLong(DayHostLogStat::getCount).toArray();
+//
+//        // 일간 우선순위별 통계
+//        int[] dayPriorities = dayPriorityStat.stream().mapToInt(DayPriorityLogStat::getPriority).toArray();
+//        Date[] dayPriorityToday = dayPriorityStat.stream().map(DayPriorityLogStat::getToday).toArray(Date[]::new);
+//        long[] dayPriorityCounts = dayPriorityStat.stream().mapToLong(DayPriorityLogStat::getCount).toArray();
+
+//        model.addAttribute("dateStatDays", dateStatDays);
+//        model.addAttribute("dateStatCounts", dateStatCounts);
+//
+//        model.addAttribute("dayHostFromHosts", dayHostFromHosts);
+//        model.addAttribute("dayHostToday", dayHostToday);
+//        model.addAttribute("dayHostCounts", dayHostCounts);
+//
+//        model.addAttribute("dayPriorities", dayPriorities);
+//        model.addAttribute("dayPriorityToday", dayPriorityToday);
+//        model.addAttribute("dayPriorityCounts", dayPriorityCounts);
+
         return "log/dashBoard";
     }
 
