@@ -82,4 +82,8 @@ public class Log {
         SysLogTag = sysLogTag;
     }
 
+    @Override
+    public String toString() {
+        return "id:" + id + " Priority:" + Priority + " FromHost:" + FromHost + " Message:" + Message + " Time:" + DeviceReportedTime;
+    }
 }

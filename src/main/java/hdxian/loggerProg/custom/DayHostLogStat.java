@@ -5,22 +5,22 @@ import java.util.Date;
 // 일간 호스트별 통계
 public class DayHostLogStat {
 
-    private String FromHost;
+    private String fromHost;
     private Date today;
     private long count;
 
     public DayHostLogStat(String fromHost, Date today, long count) {
-        FromHost = fromHost;
+        this.fromHost = fromHost;
         this.today = today;
         this.count = count;
     }
 
     public String getFromHost() {
-        return FromHost;
+        return fromHost;
     }
 
     public void setFromHost(String fromHost) {
-        FromHost = fromHost;
+        this.fromHost = fromHost;
     }
 
     public Date getToday() {

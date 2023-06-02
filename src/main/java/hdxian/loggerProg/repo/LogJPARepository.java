@@ -84,10 +84,16 @@ public class LogJPARepository implements LogRepository {
 
     @Override
     public List<Log> getAll() {
-        return em.createQuery("select l from Log l", Log.class)
+        return em.createQuery("select l from Log l order by date(l.DeviceReportedTime) desc", Log.class)
                 .getResultList();
     }
 
+    @Override
+    public List<Log> getSome(int num) {
+        return em.createQuery("select l from Log l order by date(l.DeviceReportedTime) desc", Log.class)
+                .setMaxResults(num)
+                .getResultList();
+    }
 
     @Override
     public List<DateLogStat> getStatByDate() {

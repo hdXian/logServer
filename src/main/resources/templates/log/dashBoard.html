@@ -7,7 +7,8 @@
     /* 그리드 컨테이너 스타일 */
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr;
       gap: 20px;
       padding: 20px;
     }
@@ -16,14 +17,35 @@
     .chart-container {
       background-color: #f5f5f5;
       padding: 10px;
-      width: 500px;
-      height: 400px;
     }
 
     /* 목록 컨테이너 스타일 */
-    .list-container {
+    .table-container {
       background-color: #f5f5f5;
       padding: 10px;
+    }
+
+    table {
+         border-collapse: collapse;
+         width: 100%;
+    }
+    th, td {
+       padding: 8px;
+       text-align: left;
+       border-bottom: 1px solid #ddd;
+    }
+    tr:hover {
+       background-color: #f5f5f5;
+    }
+    input[type=submit] {
+         background-color: #4CAF50;
+         color: white;
+         padding: 14px 20px;
+         margin: 8px 0;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         float: right;
     }
   </style>
   <!-- Chart.js를 사용하기 위한 스크립트 링크 -->
@@ -42,53 +64,96 @@
     <canvas id="graph3"></canvas>
   </div>
 
-  <!-- 목록 컨테이너 -->
-  <div class="list-container">
-    <h3>목록</h3>
-    <ul>
-      <li>항목 1</li>
-      <li>항목 2</li>
-      <li>항목 3</li>
-      <li>항목 4</li>
-      <li>항목 5</li>
-    </ul>
-  </div>
 </div>
+
+<!-- 목록 컨테이너 -->
+<div class="table-container">
+  <form method="get" name="form" action="/home/logDetails">
+    <h3>로그 목록</h3>
+    <input type="submit" value="상세보기"/>
+  </form>
+  <table>
+    <thead>
+    <tr>
+      <th>시간</th>
+      <th>레벨</th>
+      <th>메시지</th>
+      <th>호스트</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="logList : ${logList}">
+      <td th:text="${logList.ReceivedAt}"></td>
+      <td th:text="${logList.Priority}"></td>
+      <td th:text="${logList.Message}"></td>
+      <td th:text="${logList.FromHost}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
 
 <script th:inline="javascript">
 
     var dateStat = [[${dateStat}]];
     var dayHostStat = [[${dayHostStat}]];
     var dayPriorityStat = [[${dayPriorityStat}]];
-
     console.log(dateStat);
     console.log(dayHostStat);
     console.log(dayPriorityStat);
 
-    var dateStatLabels = [];
-    var dateStatCounts = [];
-    for(let i=0; i<dateStat.length; i++) {
-      dateStatLabels.push(dateStat[i].date);
-      dateStatCounts.push(dateStat[i].count);
-    }
-
+    var dateStatLabels = dateStat.map(row=>row.date);
+    var dateStatCounts = dateStat.map(row=>row.count);
     console.log(dateStatLabels);
     console.log(dateStatCounts);
 
+    var dayHostStatLabels = dayHostStat.map(row=>row.fromHost);
+    var dayHostStatCounts = dayHostStat.map(row=>row.count);
+    var today = dayHostStat[0].today;
+    console.log(dayHostStatLabels);
+    console.log(dayHostStatCounts);
+    console.log(today);
 
-    // 그래프 데이터
+
+<!--    var dayPriorityStatLabels = dayPriorityStat.map(row=> "level: " + row.priority);-->
+    var dayPriorityStatLabels = [1, 2, 3, 4, 5, 6, 7];
+    var displayPriorityCounts = [0, 0, 0, 0, 0, 0, 0];
+    let index = 0;
+    for(let i=0; i<dayPriorityStat.length; i++) {
+      index = dayPriorityStat[i].priority - 1;
+      displayPriorityCounts[index] = dayPriorityStat[i].count;
+    }
+    console.log(dayPriorityStatLabels);
+    console.log(displayPriorityCounts);
+
+
+
+    <!-- 호스트별 로그 발생 추이 데이터 -->
     var data1 = {
-      labels: ["A", "B", "C", "D", "E"],
+      labels: dayHostStatLabels,
       datasets: [{
-        label: "데이터셋 1",
-        data: [12, 19, 3, 5, 2],
+        label: "로그 발생 추이",
+        data: dayHostStatCounts,
         backgroundColor: ["#F5F5DC", "#F4A460", "#FFCE56", "#FFFFF0", "#FFFDD0"],
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1
       }]
     };
 
+    <!-- 레벨별 로그 발생 추이 데이터 -->
     var data2 = {
+      labels: dayPriorityStatLabels.map(level=> "level " + level),
+      datasets: [{
+        label: "로그 발생 추이",
+        data: displayPriorityCounts,
+        backgroundColor: ["#FF3333 ", "#8B3E1E ", "#FF9900 ", "#FFFF66", "#C9A2FF", "#7EC0EE", "#66FF66"],
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1
+      }]
+    };
+
+    <!-- 날짜별 로그 발생 추이 데이터 -->
+    var data3 = {
       labels: dateStatLabels,
       datasets: [{
         label: "로그 발생 추이",
@@ -99,11 +164,56 @@
       }]
     };
 
-    // 그래프 옵션
-    var options = {
+
+
+    // 호스트별 로그 발생 추이 옵션
+    var option1 = {
       scales: {
         y: {
           beginAtZero: true
+        }
+      },
+      plugins: {
+        title: {
+        display: true,
+        text: "일간 호스트별 로그 발생 추이 (" + today + ")"
+        }
+      },
+      legend: {
+        position: 'right'
+      }
+    };
+
+
+    // 일간 레벨별 로그 발생 추이 옵션
+    var option2 = {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        title: {
+        display: true,
+        text: "일간 레벨별 로그 발생 추이 (" + today + ")"
+        }
+      },
+      legend: {
+        position: 'right'
+      }
+    };
+
+    // 날짜별 로그 발생 추이 옵션
+    var option3 = {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        title: {
+        display: true,
+        text: "날짜별 로그 발생 추이"
         }
       }
     };
@@ -114,21 +224,21 @@
     new Chart(ctx1, {
       type: 'pie',
       data: data1,
-      options: options
+      options: option1
     });
 
     var ctx2 = document.getElementById('graph2').getContext('2d');
     new Chart(ctx2, {
-      type: 'bar',
+      type: 'pie',
       data: data2,
-      options: options
+      options: option2
     });
 
     var ctx3 = document.getElementById('graph3').getContext('2d');
     new Chart(ctx3, {
       type: 'bar',
-      data: data2,
-      options: options
+      data: data3,
+      options: option3
     });
 
 

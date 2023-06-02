@@ -5,22 +5,22 @@ import java.util.Date;
 // 일간 호스트별 통계
 public class DayPriorityLogStat {
 
-    private int Priority;
+    private int priority;
     private Date today;
     private long count;
 
     public DayPriorityLogStat(int priority, Date today, long count) {
-        Priority = priority;
+        this.priority = priority;
         this.today = today;
         this.count = count;
     }
 
     public int getPriority() {
-        return Priority;
+        return priority;
     }
 
     public void setPriority(int priority) {
-        Priority = priority;
+        this.priority = priority;
     }
 
     public Date getToday() {

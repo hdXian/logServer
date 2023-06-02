@@ -27,31 +27,18 @@ public class logController {
         this.logService = logService;
     }
 
-    @GetMapping("log/logList") // 로그 검색
-    public String logList(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model) {
-        List<Log> res = logService.getSortedLogs(search, sort);
-        model.addAttribute("logs", res);
-;
-        return "log/logMonitor";
-    }
-
-//    @GetMapping("log/logMonitor") // 로그인 후 최초 접속
-//    public String logMonitor(Model model) {
-//        List<Log> res = logService.getAllLogs();
-//        model.addAttribute("logs", res);
-//        return "log/logMonitor";
-//    }
-
     @GetMapping("/home") // 로그인 후 최초 접속
     public String logDashBoard(Model model) {
 
         List<DateLogStat> dateStat = logService.getDateLogStat();
         List<DayHostLogStat> dayHostStat = logService.getDayHostLogStat();
         List<DayPriorityLogStat> dayPriorityStat = logService.getDayPriorityLogStat();
+        List<Log> logList = logService.getSomeLogs(10);
 
         model.addAttribute("dateStat", dateStat);
         model.addAttribute("dayHostStat", dayHostStat);
         model.addAttribute("dayPriorityStat", dayPriorityStat);
+        model.addAttribute("logList", logList);
 
         System.out.println("dateStat");
         for(DateLogStat stat: dateStat) {
@@ -73,48 +60,33 @@ public class logController {
             System.out.println(stat.getToday());
         }
 
-//        // 최근 5일간의 날짜와 로그 통계
-//        Date[] dateStatDays = dateStat.stream().map(DateLogStat::getDate).toArray(Date[]::new);
-//        long[] dateStatCounts = dateStat.stream().mapToLong(DateLogStat::getCount).toArray();
-//
-//        // 일간 호스트별 통계
-//        String[] dayHostFromHosts = dayHostStat.stream().map(DayHostLogStat::getFromHost).toArray(String[]::new);
-//        Date[] dayHostToday = dayHostStat.stream().map(DayHostLogStat::getToday).toArray(Date[]::new);
-//        long[] dayHostCounts = dayHostStat.stream().mapToLong(DayHostLogStat::getCount).toArray();
-//
-//        // 일간 우선순위별 통계
-//        int[] dayPriorities = dayPriorityStat.stream().mapToInt(DayPriorityLogStat::getPriority).toArray();
-//        Date[] dayPriorityToday = dayPriorityStat.stream().map(DayPriorityLogStat::getToday).toArray(Date[]::new);
-//        long[] dayPriorityCounts = dayPriorityStat.stream().mapToLong(DayPriorityLogStat::getCount).toArray();
-
-//        model.addAttribute("dateStatDays", dateStatDays);
-//        model.addAttribute("dateStatCounts", dateStatCounts);
-//
-//        model.addAttribute("dayHostFromHosts", dayHostFromHosts);
-//        model.addAttribute("dayHostToday", dayHostToday);
-//        model.addAttribute("dayHostCounts", dayHostCounts);
-//
-//        model.addAttribute("dayPriorities", dayPriorities);
-//        model.addAttribute("dayPriorityToday", dayPriorityToday);
-//        model.addAttribute("dayPriorityCounts", dayPriorityCounts);
+        System.out.println("logList");
+        for(Log log: logList) {
+            System.out.println(log);
+        }
 
         return "log/dashBoard";
     }
 
+    @GetMapping("home/logDetails") // 상세보기 클릭 시
+    public String logMonitor(Model model) {
+        List<Log> res = logService.getAllLogs();
+        model.addAttribute("logs", res);
+        return "log/logDetails";
+    }
 
-    @GetMapping("log/getXlsx") // 엑셀 파일로 다운로드
+    @GetMapping("details/searchLog") // 로그 검색
+    public String logList(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model) {
+        List<Log> res = logService.getSortedLogs(search, sort);
+        model.addAttribute("logs", res);
+;
+        return "log/logDetails";
+    }
+
+    @GetMapping("details/getXlsx") // 엑셀 파일로 다운로드
     public void getXlsx(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, HttpServletResponse response) {
         logService.getLogExcel(response, search, sort);
     }
-
-    @GetMapping("log/showInGraph")
-    public String showInGraph(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model) {
-        List<Log> res = logService.getSortedLogs(search, sort);
-        model.addAttribute("logList", res);
-        return "log/logGraph";
-    }
-
-
 
 
 

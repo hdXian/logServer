@@ -17,6 +17,7 @@ public interface LogRepository {
     List<Log> findByDate(String msg, int order);
     List<Log> findByMsg(String msg);
     List<Log> getAll();
+    List<Log> getSome(int num);
     List<DateLogStat> getStatByDate();
     List<DayHostLogStat> getStatByDayHost();
     List<DayPriorityLogStat> getStatByDayPriority();

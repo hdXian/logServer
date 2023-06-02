@@ -35,6 +35,10 @@ public class LogService {
         return repository.getAll();
     }
 
+    public List<Log> getSomeLogs(int num) {
+        return repository.getSome(num);
+    }
+
     public List<Log> getSortedLogs(String search, String sort) throws NullPointerException {
         return getLogs(search, sort);
     }
@@ -50,37 +54,6 @@ public class LogService {
 
         return logMap;
     }
-
-//    public List<Map.Entry<Log, Long>> getDateLogStats() {
-//        List<Log> byDate = repository.findByDate("", 0);
-//
-//        HashMap<Log, Long> countMap = new HashMap<>();
-//        for(Log l:byDate) {
-//            countMap.put(l, countMap.getOrDefault(l, 0L) + 1);
-//        }
-//
-//        List<Map.Entry<Log, Long>> sortedEntries = countMap.entrySet().stream()
-//                .sorted(Map.Entry.<Log, Long>comparingByValue().reversed())
-//                .collect(Collectors.toList());
-//
-//        return sortedEntries;
-//    }
-//
-//    public List<Map.Entry<Log, Long>> getPriorityLogStats() {
-//        List<Log> byHost = repository.findByHost("", 0);
-//
-//        HashMap<Log, Long> countMap = new HashMap<>();
-//        for(Log l:byHost) {
-//            countMap.put(l, countMap.getOrDefault(l, 0L) + 1);
-//        }
-//
-//        List<Map.Entry<Log, Long>> sortedEntries = countMap.entrySet().stream()
-//                .sorted(Map.Entry.<Log, Long>comparingByValue().reversed())
-//                .collect(Collectors.toList());
-//
-//        return sortedEntries;
-//    }
-
 
     public List<DateLogStat> getDateLogStat() {
         return repository.getStatByDate();
@@ -102,10 +75,10 @@ public class LogService {
         switch (sort) {
             case "ta":
                 // System.out.println("called ta");
-                return repository.findByDate(search, 1);
+                return repository.findByDate(search, 0);
             case "td":
                 // System.out.println("called td");
-                return repository.findByDate(search, 0);
+                return repository.findByDate(search, 1);
             case "pa":
                 // System.out.println("called pa");
                 return repository.findByPriority(search, 1);
