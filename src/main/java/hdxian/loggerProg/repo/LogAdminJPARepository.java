@@ -1,6 +1,6 @@
 package hdxian.loggerProg.repo;
 
-import hdxian.loggerProg.domain.log_admin;
+import hdxian.loggerProg.domain.LogAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -16,8 +16,8 @@ public class LogAdminJPARepository implements LogAdminRepository {
     }
 
     @Override
-    public Optional<log_admin> findById(String id) {
-        log_admin res = em.find(log_admin.class, id);
+    public Optional<LogAdmin> findById(String id) {
+        LogAdmin res = em.find(LogAdmin.class, id);
         return Optional.ofNullable(res);
     }
 

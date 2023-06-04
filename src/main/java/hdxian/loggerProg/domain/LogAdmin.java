@@ -2,9 +2,11 @@ package hdxian.loggerProg.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class log_admin {
+@Table(name = "log_admin")
+public class LogAdmin {
 
     @Id
     private String id;

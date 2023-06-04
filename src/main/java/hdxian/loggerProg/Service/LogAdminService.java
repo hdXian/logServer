@@ -1,6 +1,6 @@
 package hdxian.loggerProg.Service;
 
-import hdxian.loggerProg.domain.log_admin;
+import hdxian.loggerProg.domain.LogAdmin;
 import hdxian.loggerProg.repo.LogAdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,7 @@ public class LogAdminService {
         this.repository = adminDataJPARepository;
     }
 
-    public Optional<log_admin> findAdmin(String id) {
+    public Optional<LogAdmin> findAdmin(String id) {
         return repository.findById(id);
     }
 
