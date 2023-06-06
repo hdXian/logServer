@@ -1,6 +1,7 @@
 package hdxian.loggerProg.Controller;
 
 import hdxian.loggerProg.Service.LogAdminService;
+import hdxian.loggerProg.domain.ChangePwForm;
 import hdxian.loggerProg.domain.LogAdmin;
 import hdxian.loggerProg.domain.LogAdminForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class loginController {
 
     @GetMapping("/")
     public String loginPage() {
-        return "loginPage";
+        return "login/loginPage";
     }
 
     @PostMapping("/login")
@@ -65,6 +66,45 @@ public class loginController {
         session.invalidate();
         return "redirect:/";
     }
+
+    @GetMapping("/login/changePw")
+    public String getChangePwPage() {
+        return "login/changePwPage";
+    }
+
+    @PostMapping("/login/changePw")
+    public String changePw(ChangePwForm form) {
+
+        Optional<LogAdmin> res = service.findAdmin(form.getId());
+
+        // 해당 계정이 없을 경우
+        if(res.isEmpty()) {
+            return "redirect:/login/changePw";
+        }
+
+        // 해당 계정이 있을 경우
+        LogAdmin admin = res.get();
+        try {
+            String oldPw = tomd5(form.getOldPw());
+            // 입력한 비밀번호가 맞을 경우 새 비밀번호로 변경
+            if (admin.getPassword().equals(oldPw)) {
+                String newPw = tomd5(form.getNewPw());
+                admin.setPassword(newPw);
+                Optional<LogAdmin> changed = service.changePw(admin);
+
+                System.out.println(changed.get().getId());
+                System.out.println(changed.get().getPassword());
+                return "redirect:/";
+            }
+            else // 아니면 비밀번호 변경 화면으로 다시 돌아옴
+                return "redirect:/login/changePw";
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/";
+        }
+    }
+
 
     private static String tomd5(String pw) throws NoSuchAlgorithmException {
 

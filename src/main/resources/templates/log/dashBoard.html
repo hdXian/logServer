@@ -50,6 +50,7 @@
   </style>
   <!-- Chart.js를 사용하기 위한 스크립트 링크 -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <form method="get" action="/logout">
@@ -95,8 +96,35 @@
   </table>
 </div>
 
-
 <script th:inline="javascript">
+    // 모델 데이터를 가져오는 함수
+    function fetchModelData() {
+      $.ajax({
+        url: '/home',
+        type: 'GET'
+<!--        success: function(data) {-->
+<!--          // 데이터를 받아와서 처리하는 로직을 작성-->
+<!--          // 예시: 데이터를 HTML 요소에 업데이트-->
+<!--          $('#dateStat').text(data.dateStat);-->
+<!--          $('#dayHostStat').text(data.dayHostStat);-->
+<!--          $('#dayPriorityStat').text(data.dayPriorityStat);-->
+<!--        },-->
+<!--        error: function(xhr, status, error) {-->
+<!--          console.error('모델 데이터를 가져오는 중에 오류가 발생했습니다.', error);-->
+<!--        }-->
+      });
+    }
+
+<!--    // 페이지 로드 후 초기 데이터 요청-->
+<!--    $(document).ready(function() {-->
+<!--      fetchModelData();-->
+<!--    });-->
+
+    // 일정 시간마다 데이터 요청
+    setInterval(function() {
+      fetchModelData();
+    }, 5000); // 5초마다 요청
+
 
     var dateStat = [[${dateStat}]];
     var dayHostStat = [[${dayHostStat}]];

@@ -29,6 +29,8 @@ public class logController {
     @GetMapping("/home") // 로그인 후 최초 접속
     public String logDashBoard(Model model, HttpSession session) {
 
+        System.out.println("home called");
+
         // 세션의 adminInfo 속성 확인. 없을 경우 첫 화면만 리턴.
         if (!checkSession(session, "adminInfo"))
             return "redirect:/";
@@ -43,30 +45,30 @@ public class logController {
         model.addAttribute("dayPriorityStat", dayPriorityStat);
         model.addAttribute("logList", logList);
 
-        System.out.println("dateStat");
-        for(DateLogStat stat: dateStat) {
-            System.out.println(stat.getCount());
-            System.out.println(stat.getDate());
-        }
-
-        System.out.println("dayHostStat");
-        for(DayHostLogStat stat: dayHostStat) {
-            System.out.println(stat.getFromHost());
-            System.out.println(stat.getToday());
-            System.out.println(stat.getCount());
-        }
-
-        System.out.println("dayPriorityStat");
-        for(DayPriorityLogStat stat: dayPriorityStat) {
-            System.out.println(stat.getPriority());
-            System.out.println(stat.getCount());
-            System.out.println(stat.getToday());
-        }
-
-        System.out.println("logList");
-        for(Log log: logList) {
-            System.out.println(log);
-        }
+//        System.out.println("dateStat");
+//        for(DateLogStat stat: dateStat) {
+//            System.out.println(stat.getCount());
+//            System.out.println(stat.getDate());
+//        }
+//
+//        System.out.println("dayHostStat");
+//        for(DayHostLogStat stat: dayHostStat) {
+//            System.out.println(stat.getFromHost());
+//            System.out.println(stat.getToday());
+//            System.out.println(stat.getCount());
+//        }
+//
+//        System.out.println("dayPriorityStat");
+//        for(DayPriorityLogStat stat: dayPriorityStat) {
+//            System.out.println(stat.getPriority());
+//            System.out.println(stat.getCount());
+//            System.out.println(stat.getToday());
+//        }
+//
+//        System.out.println("logList");
+//        for(Log log: logList) {
+//            System.out.println(log);
+//        }
 
         return "log/dashBoard";
     }
@@ -103,11 +105,12 @@ public class logController {
     }
 
 
+    // 실제 attribute에 전달되는 인자는 "adminInfo" 뿐, 코드 재사용을 고려해 매개변수로 선언함
+    // 세션이 존재하면 true, 없으면 false 리턴
     private boolean checkSession(HttpSession session, String attribute) {
         LogAdmin adminInfo = (LogAdmin) session.getAttribute(attribute);
         return !(adminInfo == null);
     }
-
 
 
 }

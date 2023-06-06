@@ -19,5 +19,9 @@ public class LogAdminService {
         return repository.findById(id);
     }
 
+    public Optional<LogAdmin> changePw(LogAdmin admin) {
+        return repository.updatePw(admin);
+    }
+
 
 }

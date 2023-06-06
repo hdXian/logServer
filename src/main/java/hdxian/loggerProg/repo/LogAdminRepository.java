@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface LogAdminRepository {
     Optional<LogAdmin> findById(String id);
+    Optional<LogAdmin> updatePw(LogAdmin admin);
+
 }

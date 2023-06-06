@@ -5,11 +5,13 @@ import hdxian.loggerProg.custom.DayHostLogStat;
 import hdxian.loggerProg.custom.DayPriorityLogStat;
 import hdxian.loggerProg.domain.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public class LogJPARepository implements LogRepository {
 
     private final EntityManager em;
