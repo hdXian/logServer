@@ -43,14 +43,13 @@
    <h1>로그 상세</h1>
    <form method="get" name="form">
       <label for="search">검색:</label>
-      <input type="text" id="search" name="search">
+      <input type="text" id="search" name="search" th:value=${search}>
       <select id="sort" name="sort">
-         <option value="ta">시간 (최신순)</option> <!-- time asc -->
-         <option value="td">시간 (오래된 순)</option> <!-- time desc -->
-         <option value="pd">레벨 (높은 순)</option> <!-- priority desc -->
-         <option value="pa">레벨 (낮은 순)</option> <!-- priority asc -->
+         <option value="ta" th:selected="${sort} == ta">시간 (최신순)</option> <!-- time asc -->
+         <option value="td" th:selected="${sort} == td">시간 (오래된 순)</option> <!-- time desc -->
+         <option value="pa" th:selected="${sort} == pa">레벨 (높은 순)</option> <!-- priority desc -->
+         <option value="pd" th:selected="${sort} == pd">레벨 (낮은 순)</option> <!-- priority asc -->
       </select>
-      <!--input type="submit" value="검색"-->
        <input type="submit" value="검색" onclick="javascript: form.action='/details/searchLog';"/>
        <input type="submit" value="Excel로 다운로드" onclick="javascript: form.action='/details/getXlsx';"/>
    </form>
@@ -66,10 +65,10 @@
       </thead>
       <tbody>
       <tr th:each="log : ${logs}">
-          <td th:text="${log.ReceivedAt}"></td>
-          <td th:text="${log.Priority}"></td>
-          <td th:text="${log.Message}"></td>
-          <td th:text="${log.FromHost}"></td>
+          <td th:text="${log.ReceivedAt}" width="20%"></td>
+          <td th:text="${log.Priority}" width="10%"></td>
+          <td th:text="${log.Message}" width="50%"></td>
+          <td th:text="${log.FromHost}" width="20%"></td>
         </tr>
       </tbody>
    </table>

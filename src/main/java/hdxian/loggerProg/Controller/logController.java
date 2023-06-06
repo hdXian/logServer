@@ -74,7 +74,7 @@ public class logController {
     }
 
     @GetMapping("home/logDetails") // 상세보기 클릭 시
-    public String logMonitor(Model model, HttpSession session) {
+    public String logDetails(Model model, HttpSession session) {
         // 세션 유효성 확인
         if (!checkSession(session, "adminInfo"))
             return "redirect:/";
@@ -85,13 +85,15 @@ public class logController {
     }
 
     @GetMapping("details/searchLog") // 로그 검색
-    public String logList(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model, HttpSession session) {
+    public String searchLog(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model, HttpSession session) {
         // 세션 유효성 확인
         if (!checkSession(session, "adminInfo"))
             return "redirect:/";
 
         List<Log> res = logService.getSortedLogs(search, sort);
         model.addAttribute("logs", res);
+        model.addAttribute("search", search);
+        model.addAttribute("sort", sort);
 ;
         return "log/logDetails";
     }

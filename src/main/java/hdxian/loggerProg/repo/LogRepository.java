@@ -4,7 +4,6 @@ import hdxian.loggerProg.custom.DateLogStat;
 import hdxian.loggerProg.custom.DayHostLogStat;
 import hdxian.loggerProg.custom.DayPriorityLogStat;
 import hdxian.loggerProg.domain.Log;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
