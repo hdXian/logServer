@@ -1,4 +1,4 @@
-drop table log_admin;
+drop table if exists log_admin;
 
 use Syslog;
 create table log_admin (
@@ -15,5 +15,4 @@ select * from log_admin;
 
 commit;
 
-select * from Syslog.log_admin;
 
