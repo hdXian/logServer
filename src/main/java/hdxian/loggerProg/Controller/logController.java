@@ -73,36 +73,42 @@ public class logController {
         return "log/dashBoard";
     }
 
-    @GetMapping("home/logDetails") // 상세보기 클릭 시
-    public String logDetails(Model model, HttpSession session) {
+//    @GetMapping("home/logDetails") // 상세보기 클릭 시
+//    public String logDetails(Model model, HttpSession session) {
+//        // 세션 유효성 확인
+//        if (!checkSession(session, "adminInfo"))
+//            return "redirect:/";
+//
+//        List<Log> res = logService.getAllLogs();
+//        model.addAttribute("logs", res);
+//        return "log/logDetails";
+//    }
+
+    @GetMapping("home/logDetails") // 로그 상세보기 화면
+    public String searchLog(@RequestParam(value = "search", defaultValue = "") String search,
+                            @RequestParam(value = "sort", defaultValue = "ta") String sort,
+                            @RequestParam(value = "limit", defaultValue = "100") int limit, Model model, HttpSession session) {
         // 세션 유효성 확인
         if (!checkSession(session, "adminInfo"))
             return "redirect:/";
 
-        List<Log> res = logService.getAllLogs();
-        model.addAttribute("logs", res);
-        return "log/logDetails";
-    }
-
-    @GetMapping("details/searchLog") // 로그 검색
-    public String searchLog(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, Model model, HttpSession session) {
-        // 세션 유효성 확인
-        if (!checkSession(session, "adminInfo"))
-            return "redirect:/";
-
-        List<Log> res = logService.getSortedLogs(search, sort);
+        List<Log> res = logService.getSortedLogs(limit, search, sort);
         model.addAttribute("logs", res);
         model.addAttribute("search", search);
         model.addAttribute("sort", sort);
+        model.addAttribute("limit", limit);
 ;
         return "log/logDetails";
     }
 
     @GetMapping("details/getXlsx") // 엑셀 파일로 다운로드
-    public void getXlsx(@RequestParam(value = "search") String search, @RequestParam(value = "sort") String sort, HttpServletResponse response, HttpSession session) {
+    public void getXlsx(@RequestParam(value = "limit") int limit,
+                        @RequestParam(value = "search") String search,
+                        @RequestParam(value = "sort") String sort,
+                        HttpServletResponse response, HttpSession session) {
         // 세션이 유효할 때만 엑셀 파일 생성
         if (checkSession(session, "adminInfo"))
-            logService.getLogExcel(response, search, sort);
+            logService.getLogExcel(response, limit, search, sort);
 
     }
 

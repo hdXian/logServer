@@ -38,12 +38,12 @@ public class LogService {
         return repository.getSome(num);
     }
 
-    public List<Log> getSortedLogs(String search, String sort) throws NullPointerException {
-        return getLogs(search, sort);
+    public List<Log> getSortedLogs(int limit, String search, String sort) throws NullPointerException {
+        return getLogs(limit, search, sort);
     }
 
-    public Object getLogExcel(HttpServletResponse response, String search, String sort)  {
-        List<Log> logList = getLogs(search, sort);
+    public Object getLogExcel(HttpServletResponse response, int limit, String search, String sort)  {
+        List<Log> logList = getLogs(limit, search, sort);
 
         createExcelDownloadResponse(response, logList);
 
@@ -67,23 +67,23 @@ public class LogService {
     }
 
 
-    private List<Log> getLogs(String search, String sort) throws NullPointerException {
+    private List<Log> getLogs(int limit, String search, String sort) throws NullPointerException {
         if(search == null || sort == null) {
             throw new NullPointerException("search or sort is null");
         }
         switch (sort) {
             case "ta":
                 // System.out.println("called ta");
-                return repository.findByDate(search, 0);
+                return repository.findByDate(search, limit , 0);
             case "td":
                 // System.out.println("called td");
-                return repository.findByDate(search, 1);
+                return repository.findByDate(search, limit, 1);
             case "pa":
                 // System.out.println("called pa");
-                return repository.findByPriority(search, 1);
+                return repository.findByPriority(search, limit, 1);
             case "pd":
                 // System.out.println("called pd");
-                return repository.findByPriority(search, 0);
+                return repository.findByPriority(search, limit, 0);
             default:
                 // System.out.println("called all");
                 return repository.getAll();

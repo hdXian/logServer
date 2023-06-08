@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface LogRepository {
 
     Optional<Log> findById(Long id);
-    List<Log> findByPriority(String msg, int order);
-    List<Log> findByHost(String msg, int order);
-    List<Log> findByDate(String msg, int order);
+    List<Log> findByPriority(String msg, int limit, int order);
+    List<Log> findByHost(String msg, int limit, int order);
+    List<Log> findByDate(String msg, int limit, int order);
     List<Log> findByMsg(String msg);
     List<Log> getAll();
     List<Log> getSome(int num);

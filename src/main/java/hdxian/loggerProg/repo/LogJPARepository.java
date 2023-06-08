@@ -29,34 +29,67 @@ public class LogJPARepository implements LogRepository {
     }
 
     @Override
-    public List<Log> findByPriority(String msg, int order) {
+    public List<Log> findByPriority(String msg, int limit, int order) {
 
-        if(order == 1) { // 오름차순
-            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority asc", Log.class)
-                    .setParameter("msg", msg)
-                    .getResultList();
-        }
-        else { // 내림차순
-            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority desc", Log.class)
-                    .setParameter("msg", msg)
-                    .getResultList();
-        }
+        String sql;
+        List<Log> res;
 
+        // 정렬 기준
+        if(order == 1) // 오름차순
+            sql = "select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority asc";
+        else // 내림차순
+            sql = "select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority desc";
+
+        // 개수 제한
+        if(limit == 999) // 전체 조회
+            res = em.createQuery(sql, Log.class).setParameter("msg", msg).getResultList();
+        else // 일부 조회 (limit)
+            res = em.createQuery(sql, Log.class).setParameter("msg", msg).setMaxResults(limit).getResultList();
+
+        return res;
+
+//        if(order == 1) { // 오름차순
+//            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority asc", Log.class)
+//                    .setParameter("msg", msg)
+//                    .getResultList();
+//        }
+//        else { // 내림차순
+//            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by Priority desc", Log.class)
+//                    .setParameter("msg", msg)
+//                    .getResultList();
+//        }
     }
 
     @Override
-    public List<Log> findByHost(String msg, int order) {
+    public List<Log> findByHost(String msg, int limit, int order) {
 
-        if(order == 1) { // 오름차순
-            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost asc", Log.class)
-                    .setParameter("msg", msg)
-                    .getResultList();
-        }
-        else { // 내림차순
-            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost desc", Log.class)
-                    .setParameter("msg", msg)
-                    .getResultList();
-        }
+        String sql;
+        List<Log> res;
+
+        // 정렬 기준
+        if(order == 1) // 오름차순
+            sql = "select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost asc";
+        else // 내림차순
+            sql = "select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost desc";
+
+        // 개수 제한
+        if(limit == 999) // 전체 조회
+            res = em.createQuery(sql, Log.class).setParameter("msg", msg).getResultList();
+        else // 일부 조회 (limit)
+            res = em.createQuery(sql, Log.class).setParameter("msg", msg).setMaxResults(limit).getResultList();
+
+        return res;
+
+//        if(order == 1) { // 오름차순
+//            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost asc", Log.class)
+//                    .setParameter("msg", msg)
+//                    .getResultList();
+//        }
+//        else { // 내림차순
+//            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by FromHost desc", Log.class)
+//                    .setParameter("msg", msg)
+//                    .getResultList();
+//        }
 
     }
 
@@ -69,19 +102,35 @@ public class LogJPARepository implements LogRepository {
 
 
     @Override
-    public List<Log> findByDate(String msg, int order) {
+    public List<Log> findByDate(String msg, int limit, int order) {
 
-        if(order == 1) { // 오름차순
-            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime asc", Log.class)
-                    .setParameter("msg", msg)
-                    .getResultList();
-        }
-        else { // 내림차순
-            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime desc", Log.class)
-                    .setParameter("msg", msg)
-                    .getResultList();
-        }
+        String sql;
+        List<Log> res;
 
+        // 정렬 기준
+        if(order == 1) // 오름차순
+            sql = "select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime asc";
+        else // 내림차순
+            sql = "select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime desc";
+
+        // 개수 제한
+        if(limit == 999) // 전체 조회
+            res = em.createQuery(sql, Log.class).setParameter("msg", msg).getResultList();
+        else // 일부 조회 (limit)
+            res = em.createQuery(sql, Log.class).setParameter("msg", msg).setMaxResults(limit).getResultList();
+
+        return res;
+
+//        if(order == 1) { // 오름차순
+//            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime asc", Log.class)
+//                    .setParameter("msg", msg)
+//                    .getResultList();
+//        }
+//        else { // 내림차순
+//            return em.createQuery("select l from Log l where l.Message like concat('%', :msg ,'%') order by DeviceReportedTime desc", Log.class)
+//                    .setParameter("msg", msg)
+//                    .getResultList();
+//        }
     }
 
     @Override
