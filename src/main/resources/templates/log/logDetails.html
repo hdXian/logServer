@@ -41,6 +41,9 @@
 </head>
 <body>
    <h1>로그 상세</h1>
+   <form method="get" action="/home">
+       <input type="submit" value="메인 화면으로"/>
+   </form>
    <form method="get" name="form">
       <label for="search">검색:</label>
       <input type="text" id="search" name="search" th:value=${search}>
