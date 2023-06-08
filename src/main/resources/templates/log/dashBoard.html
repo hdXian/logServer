@@ -97,23 +97,34 @@
 </div>
 
 <script th:inline="javascript">
-    // 모델 데이터를 가져오는 함수
-    function fetchModelData() {
-      $.ajax({
-        url: '/home',
-        type: 'GET'
-      });
-    }
-
-    // 일정 시간마다 데이터 요청
-    setInterval(function() {
-      fetchModelData();
-    }, 2000); // 5초마다 요청
-
 
     var dateStat = [[${dateStat}]];
     var dayHostStat = [[${dayHostStat}]];
     var dayPriorityStat = [[${dayPriorityStat}]];
+    var logList = [[${logList}]];
+
+
+  function sendAjaxRequest() {
+    $.ajax({
+    url: "/home",
+    type: "GET",
+    success: function(response) {
+    // 응답을 받았을 때 수행할 작업 작성
+    // response는 서버에서 전송한 데이터입니다.
+    console.log(response);
+    location.reload();
+    // 모델에 새로운 데이터를 추가하고자 한다면, 이 곳에서 처리 가능합니다.
+      }
+        });
+  }
+
+    // 일정 시간마다 데이터 요청
+    setInterval(sendAjaxRequest, 5000);
+
+
+<!--    var dateStat = [[${dateStat}]];-->
+<!--    var dayHostStat = [[${dayHostStat}]];-->
+<!--    var dayPriorityStat = [[${dayPriorityStat}]];-->
     console.log(dateStat);
     console.log(dayHostStat);
     console.log(dayPriorityStat);
@@ -197,7 +208,8 @@
       },
       legend: {
         position: 'right'
-      }
+      },
+      animation: false
     };
 
 
@@ -216,7 +228,8 @@
       },
       legend: {
         position: 'right'
-      }
+      },
+      animation: false
     };
 
     // 날짜별 로그 발생 추이 옵션
@@ -231,7 +244,8 @@
         display: true,
         text: "날짜별 로그 발생 추이"
         }
-      }
+      },
+      animation: false
     };
 
 

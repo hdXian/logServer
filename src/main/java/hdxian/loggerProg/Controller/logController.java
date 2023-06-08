@@ -29,7 +29,7 @@ public class logController {
     @GetMapping("/home") // 로그인 후 최초 접속
     public String logDashBoard(Model model, HttpSession session) {
 
-//        System.out.println("home called");
+        System.out.println("home called");
 
         // 세션의 adminInfo 속성 확인. 없을 경우 첫 화면만 리턴.
         if (!checkSession(session, "adminInfo"))
