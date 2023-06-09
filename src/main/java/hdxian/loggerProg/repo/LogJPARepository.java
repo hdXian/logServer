@@ -30,7 +30,6 @@ public class LogJPARepository implements LogRepository {
 
     @Override
     public List<Log> findByPriority(String msg, int limit, int order) {
-
         String sql;
         List<Log> res;
 
@@ -62,7 +61,6 @@ public class LogJPARepository implements LogRepository {
 
     @Override
     public List<Log> findByHost(String msg, int limit, int order) {
-
         String sql;
         List<Log> res;
 
@@ -103,7 +101,6 @@ public class LogJPARepository implements LogRepository {
 
     @Override
     public List<Log> findByDate(String msg, int limit, int order) {
-
         String sql;
         List<Log> res;
 

@@ -98,33 +98,12 @@
 
 <script th:inline="javascript">
 
+
     var dateStat = [[${dateStat}]];
     var dayHostStat = [[${dayHostStat}]];
     var dayPriorityStat = [[${dayPriorityStat}]];
     var logList = [[${logList}]];
 
-
-  function sendAjaxRequest() {
-    $.ajax({
-    url: "/home",
-    type: "GET",
-    success: function(response) {
-    // 응답을 받았을 때 수행할 작업 작성
-    // response는 서버에서 전송한 데이터입니다.
-    console.log(response);
-    location.reload();
-    // 모델에 새로운 데이터를 추가하고자 한다면, 이 곳에서 처리 가능합니다.
-      }
-        });
-  }
-
-    // 일정 시간마다 데이터 요청
-    setInterval(sendAjaxRequest, 5000);
-
-
-<!--    var dateStat = [[${dateStat}]];-->
-<!--    var dayHostStat = [[${dayHostStat}]];-->
-<!--    var dayPriorityStat = [[${dayPriorityStat}]];-->
     console.log(dateStat);
     console.log(dayHostStat);
     console.log(dayPriorityStat);
@@ -271,6 +250,19 @@
       options: option3
     });
 
+
+    function sendAjaxRequest() {
+      $.ajax({
+        url: "/home",
+        type: "GET",
+        success: function(response) {
+          console.log(response);
+          location.reload();
+          }
+          });
+    }
+
+    setInterval(sendAjaxRequest, 5000);
 
   </script>
 </body>
